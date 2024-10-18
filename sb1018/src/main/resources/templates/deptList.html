@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>부서 목록</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+	<h2>DEPT 목록</h2>
+	<table class="board_list">
+		<colgroup>
+			<col width="15%"/>
+			<col width="*"/>
+			<col width="15%"/>
+			<col width="20%"/>
+		</colgroup>
+		<thead>
+		<tr>
+			<th scope="col">부서 번호</th>
+			<th scope="col">부서 이름</th>
+			<th scope="col">부서 위치</th>
+			<th scope="col">수정/삭제</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="list : ${list}">
+			<td th:text="${list.deptno}"></td>
+			<td>
+				<a th:href="@{/dept/{deptNo}/openEmpList(deptNo=${list.deptno})}" th:text="${list.dname}"></a>
+			</td>
+			<td th:text="${list.loc}"></td>
+			<td><a th:href="@{/}" th:text="수정" class="button"></a>
+				<a th:href="@{/removeDept(deptNo=${list.deptno})}" th:text="삭제" class="button"></a>
+			</td>
+
+		</tr>
+		<tr th:if="${#lists.size(list) == 0}">
+			<td colspan="3">조회된 결과가 없습니다.</td>
+		</tr>
+		</tbody>
+	</table>
+	<a href="opentWrite" class="btn">글 쓰기</a>
+</div>
+</body>
+</html>

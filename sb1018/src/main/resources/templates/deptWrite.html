@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>board</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+	<div class="container">
+	    <h2>부서 등록</h2>
+	    <form id="frm" name="frm" method="post" action="/persistDept">
+	    	<table class="board_detail">
+				<tr>
+					<td>부서 번호</td>
+					<td><input type="text" id="deptno" name="deptno"/></td>
+				</tr>
+	    		<tr>
+	    			<td>부서 이름</td>
+	    			<td><input type="text" id="dname" name="dname"/></td>
+	    		</tr>
+	    		<tr>
+					<td>부서 위치</td>
+					<td><input type="text" id="loc" name="loc"/></td>
+	    		</tr>
+	    	</table>
+	    	<input type="submit" id="submit" value="저장" class="btn">
+	    </form>
+    </div>
+</body>
+</html>
