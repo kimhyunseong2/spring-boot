@@ -1,0 +1,101 @@
+@CHARSET "UTF-8";
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
+
+html{overflow:scorll;}
+html, body, div, h1, h2, a, form, table, caption, thead, tbody, tr, th, td, submit {
+	margin:0; outline:0; border:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent;
+}
+body {
+	margin: 0;
+	font-family: var(--bs-body-font-family);
+	font-size: var(--bs-body-font-size);
+	font-weight: var(--bs-body-font-weight);
+	line-height: var(--bs-body-line-height);
+	color: var(--bs-body-color);
+	text-align: var(--bs-body-text-align);
+	background-color: var(--bs-body-bg);
+	-webkit-text-size-adjust: 100%;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+h1, h2, h3 {font-size: 1.5em;}
+p{margin:0; padding:0;}
+ul{margin:0;}
+a:link, a:visited {text-decoration:none; color: #656565;}
+input{vertical-align:middle;}
+input:focus {outline:0;}
+caption {display:none; width:0; height:0; margin-top:-1px; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
+
+.container {max-width:1024px; margin:30px auto;}
+.board_list {width:100%; border-top:2px solid #252525; border-bottom:1px solid #ccc; margin:15px 0; border-collapse: collapse;}
+.board_list thead th:first-child {background-image:none;}
+.board_list thead th {border-bottom:1px solid #ccc; padding:13px 0; color:#3b3a3a; text-align: center; vertical-align:middle;}
+.board_list tbody td {border-top:1px solid #ccc; padding:13px 0; text-align:center; vertical-align:middle;}
+.board_list tbody tr:first-child td {border:none;}
+.board_list tbody tr:hover{background:#ffff99;} 
+.board_list tbody td.title {text-align:left; padding-left:20px;}
+.board_list tbody td a {display:inline-block}
+
+.board_detail {width:100%; border-top:2px solid #252525; border-bottom:1px solid #ccc; border-collapse:collapse;}
+.board_detail tbody input {width:100%;}
+.board_detail tbody th {text-align:left; background:#f7f7f7; color:#3b3a3a; vertical-align:middle; text-align: center;}
+.board_detail tbody th, .board_detail tbody td {padding:10px 15px; border-bottom:1px solid #ccc;}
+.board_detail tbody textarea {width:100%; min-height:170px}
+
+.btn {
+	margin: 5px;
+	padding: 0.375rem 0.75rem; /* Bootstrap의 padding 값에 맞춤 */
+	color: #fff !important; /* 텍스트 색상 */
+	display: inline-block;
+	background-color: #007bff; /* Bootstrap 기본 파란색 */
+	vertical-align: middle;
+	border: 1px solid transparent; /* Bootstrap의 border 스타일 */
+	border-radius: 0.25rem; /* Bootstrap의 border-radius */
+	cursor: pointer;
+	text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.btn:hover {
+	background-color: #0056b3; /* 마우스 오버 시 색상 */
+	border-color: #0056b3; /* 테두리 색상 */
+}
+
+.rbtn {
+	display: inline-block;
+	margin: 5px; /* 버튼 간 간격 */
+	padding: 0.375rem 0.75rem; /* Bootstrap 버튼과 같은 패딩 */
+	color: #fff !important; /* 텍스트 색상 */
+	background-color: #28a745; /* Bootstrap의 성공 색상 */
+	border: 1px solid transparent; /* Bootstrap의 테두리 스타일 */
+	border-radius: 0.25rem; /* Bootstrap의 border-radius */
+	text-align: center; /* 텍스트 중앙 정렬 */
+	cursor: pointer; /* 커서 모양 */
+	text-decoration: none; /* 링크의 기본 밑줄 제거 */
+}
+
+.rbtn:hover {
+	background-color: #218838; /* 마우스 오버 시 색상 */
+	border-color: #1e7e34; /* 마우스 오버 시 테두리 색상 */
+}
+
+.dbtn {
+	display: inline-block;
+	margin: 5px; /* 버튼 간 간격 */
+	padding: 0.375rem 0.75rem; /* Bootstrap 버튼과 같은 패딩 */
+	color: #fff !important; /* 텍스트 색상 */
+	background-color: #dc3545; /* Bootstrap의 위험 색상 */
+	border: 1px solid transparent; /* Bootstrap의 테두리 스타일 */
+	border-radius: 0.25rem; /* Bootstrap의 border-radius */
+	text-align: center; /* 텍스트 중앙 정렬 */
+	cursor: pointer; /* 커서 모양 */
+	text-decoration: none; /* 링크의 기본 밑줄 제거 */
+}
+
+.dbtn:hover {
+	background-color: #c82333; /* 마우스 오버 시 색상 */
+	border-color: #bd2130; /* 마우스 오버 시 테두리 색상 */
+}
+
+.file_list a {display:inherit !important;}
+
