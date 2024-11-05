@@ -13,9 +13,10 @@ public class RegisterRequest {
 	@Size(min=6)
 	private String password;
 	@NotEmpty
-	private String confirmPassword;
-	@NotEmpty
 	private String name;
+	@NotEmpty
+	private String confirmPassword;
+
 
 	public String getEmail() {
 		return email;
