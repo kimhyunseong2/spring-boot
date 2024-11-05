@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="fragment-nav">
+        <header class="d-flex flex-column">
+            <div class="header--top">
+                <ul>
+                    <!-- 로그인된 사용자일 때만 프로필 표시 -->
+                    <li th:if="${username != null}" class="material--li">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </li>
+                    <li th:if="${username != null}">
+                        <span th:text="${username}"></span>
+                    </li>
+                    <li style="margin: 0 15px;" th:if="${username != null}">ㅣ</li>
+                    <li th:if="${username != null}" class="material--li">
+                        <span style="color: #9BD2EC;" class="material-symbols-outlined">logout</span>
+                    </li>
+                    <li th:if="${username != null}">
+                        <a href="/logout">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+
+            <nav class="main--menu">
+                <a href="/"><img class="logo" alt="" src="/images/logo.png"></a>
+                <!-- userRole에 따라 메뉴 다르게 표시 -->
+                <ul>
+                    <li><a href="/">홈</a>
+                    <li><a href="/info/profile">내정보</a>
+                    <li><a href="/admin">회원관리</a>
+                    <li><a href="/board">게시판</a>
+                    <li><a href="/#">#</a>
+                    <li><a href="/#">#</a>
+
+                </ul>
+            </nav>
+        </header>
+    </div>
+</html>

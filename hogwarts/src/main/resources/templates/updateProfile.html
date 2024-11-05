@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/css/myInfo.css">
+</head>
+<body>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+  <!-- 세부 메뉴 div-->
+  <div class="sub--menu">
+    <div class="sub--menu--top">
+      <h2>MY</h2>
+    </div>
+    <!-- 메뉴 -->
+    <div class="sub--menu--mid">
+      <table class="sub--menu--table" border="1">
+        <tr>
+          <td><a href="/info/profile" class="selected--menu">내 정보 조회</a></td>
+        </tr>
+        <tr>
+          <td><a href="/deleteProfile">회원 탈퇴</a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 메인 div -->
+  <main>
+    <h1>회원 정보 수정</h1>
+    <div class="split--div"></div>
+
+    <!-- 회원정보 수정 폼 -->
+    <form action="/update" method="POST">
+      <table border="1" class="input--table">
+      </table>
+
+      <table border="1" class="input--table">
+        <tr>
+        <th>ID</th>
+        <td><input type="text" name="id" th:value="${userId}" readonly /></td>
+        </tr>
+
+        <tr>
+          <th>성명</th>
+          <td><input type="text" name="username" th:value="${userName}" /></td>
+        </tr>
+        <tr>
+          <th>email</th>
+          <td><input type="email" name="email" th:value="${email}" /></td>
+        </tr>
+
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" th:value="${password}" /></td>
+        </tr>
+      </table>
+
+      <button type="submit" class="btn btn-dark update--button">수정하기</button>
+    </form>
+  </main>
+</div>
+
+<footer>
+  <!-- 필요 시 -->
+</footer>
+</body>
+</html>
