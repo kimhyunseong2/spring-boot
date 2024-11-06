@@ -6,14 +6,19 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public class RegisterRequest {
-    @NotBlank
-    @Email
+    @Email(message = "{bad.email}")
+    @NotBlank(message = "{required}")
     private String email;
-    @Size(min=6)
+
+
+    @Size(min = 6, message = "{Size.password}")
+    @NotBlank(message = "{required}")
     private String password;
-    @NotEmpty
+
+    @NotBlank(message = "{required}")
     private String confirmPassword;
-    @NotEmpty
+
+    @NotBlank(message = "{required}")
     private String name;
 
     public String getEmail() {

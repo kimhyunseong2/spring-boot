@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,7 +31,10 @@ public class User {
 
 
     @Column(nullable = false)
-    private String role = "USER";  // 기본값을 'USER'로 설정
+    private String role = "USER";
 
-    private LocalDateTime regdate = LocalDateTime.now(); // 기본값을 현재 시간으로 설정
+    private LocalDateTime regdate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Board> boards;
 }

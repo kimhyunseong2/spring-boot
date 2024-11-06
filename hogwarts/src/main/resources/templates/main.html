@@ -19,50 +19,20 @@
               <a href="/notice">공지사항</a>
             </h3>
             <div class="main--page--split"></div>
-            <table>
-
-
+            <table class="board_list">
+              <tbody>
+              <!-- 최신 게시글이 있을 경우 출력 -->
+              <tr th:if="${latestPost != null}">
+                <td th:text="${latestPost.id}"></td>
+                <td th:text="${latestPost.title}"></td>
+                <td th:text="${latestPost.createdDate}"></td>
+              </tr>
+              <!-- 최신 게시글이 없을 경우 -->
+              <tr th:if="${latestPost == null}">
+                <td colspan="3">등록된 게시글이 없습니다.</td>
+              </tr>
+              </tbody>
             </table>
-          </div>
-          <div class="main--page--calander">
-            <h3>
-              <a href="/schedule">일정</a>
-            </h3>
-            <div class="main--page--split"></div>
-            <table>
-
-              <tr>
-                <td>01-27&nbsp;-&nbsp;02-01</td>
-                <td>2023-1학기 예비수강신청</td>
-              </tr>
-
-              <tr>
-                <td>02-13&nbsp;-&nbsp;02-17</td>
-                <td>2023-1학기 수강신청</td>
-              </tr>
-
-              <tr>
-                <td>02-17&nbsp;-&nbsp;02-23</td>
-                <td>2023-1학기 등록</td>
-              </tr>
-
-              <tr>
-                <td>02-22&nbsp;-&nbsp;02-22</td>
-                <td>복학 접수 마감</td>
-              </tr>
-
-              <tr>
-                <td>02-26&nbsp;-&nbsp;02-26</td>
-                <td>졸업예배</td>
-              </tr>
-
-              <tr>
-                <td>02-27&nbsp;-&nbsp;02-27</td>
-                <td>학위수여식</td>
-              </tr>
-
-            </table>
-
           </div>
         </div>
       </div>

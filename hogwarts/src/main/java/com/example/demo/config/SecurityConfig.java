@@ -28,16 +28,18 @@ public class SecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/register/**").permitAll()
-//                .antMatchers("/board/**").permitAll()
+                .antMatchers("/board/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/role/admin").hasRole("ADMIN")
+                .antMatchers("/role/admin2").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().loginPage("/login").permitAll().and()
                 .logout()
                 .logoutSuccessUrl("/login?logout=true").permitAll();
+        http.exceptionHandling().accessDeniedPage("/role/accessDenied");
 
         return http.build();
     }

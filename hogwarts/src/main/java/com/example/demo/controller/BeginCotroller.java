@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Board;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.BoardService;
+import com.example.demo.service.UserNotFoundException;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -29,8 +33,11 @@ public class BeginCotroller {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BoardService boardService;
+
     @GetMapping("/")
-    public String main(Model model) {
+    public String main(Model model) throws Exception {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -39,6 +46,8 @@ public class BeginCotroller {
             String username = authentication.getName();
             model.addAttribute("username", username);
         }
+        Board latestPost = boardService.selectLatestPost(); // 최신 게시글 조회
+        model.addAttribute("latestPost", latestPost);
         return "main";
     }
 
@@ -86,6 +95,22 @@ public class BeginCotroller {
         return "redirect:/info/profile";
     }
 
+    @GetMapping("/deleteRegister")
+    public String showDeleteForm() {
+        return "deleteRegister";  // deleteRegister.html 페이지로 이동
+    }
+
+    // 이메일로 회원 탈퇴 처리하는 POST 요청
+    @PostMapping("/deleteRegister")
+    public String deleteUserByEmail(@RequestParam("email") String email) {
+        try {
+            userService.deleteUserByEmail(email);  // 사용자 삭제
+            return "redirect:/logout";  // 탈퇴 후 로그아웃 처리
+        } catch (UserNotFoundException e) {
+            return "redirect:/error";  // 사용자 이메일이 없는 경우 에러 페이지로 리디렉션
+        }
+    }
+
 
     @PostConstruct
     public void init() {
@@ -105,8 +130,36 @@ public class BeginCotroller {
 
 
     @GetMapping("/login")
-    public String loginForm() {
-        return "login";  // login.html 페이지 반환
+    public String loginForm(@RequestParam(required = false) String error,
+                            @RequestParam(required = false) String logout,
+                            Model model) {
+
+        if (error != null) {
+
+            model.addAttribute("errorMessage", "로그인 실패: 아이디나 비밀번호를 확인하세요.");
+        }
+
+        if (logout != null) {
+
+            model.addAttribute("logoutMessage", "로그아웃되었습니다.");
+
+        }
+        return "login";
+    }
+
+    @GetMapping("/role/admin")
+    public void admin() {
+    }
+
+    @GetMapping("/role/admin2")
+    public String getAllUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "/role/admin2";
+    }
+
+    @GetMapping("/role/accessDenied")
+    public void accessDenied() {
     }
 
 }

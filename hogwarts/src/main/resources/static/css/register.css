@@ -11,6 +11,12 @@ footer {
     text-align: center;
 }
 
+.error-msg {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
 /* 회원가입 페이지 스타일 */
 .main--page--div {
     display: flex;
@@ -141,4 +147,5 @@ input[type="password"]:focus {
     #input--submit {
         font-size: 16px;
     }
+
 }

@@ -41,7 +41,12 @@
               <!-- 로그인 버튼 -->
               <button type="submit" id="input--submit">로그인</button>
             </form>
-
+            <div th:if="${errorMessage}" class="alert alert-danger">
+              <span th:text="${errorMessage}"></span>
+            </div>
+            <div th:if="${logoutMessage}" class="alert alert-success">
+              <span th:text="${logoutMessage}"></span>
+            </div>
             <!-- 로그인 하단 링크 -->
             <div class="login--info">
               <p><a href="/register">계정이 없나요? 회원가입</a></p>
