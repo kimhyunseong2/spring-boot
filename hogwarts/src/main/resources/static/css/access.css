@@ -1,0 +1,73 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면 전체 높이를 사용 */
+    flex-direction: column;
+}
+
+/* 페이지 타이틀 스타일 */
+h1.display-1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #e74c3c;  /* Red color */
+    margin-bottom: 20px;
+}
+
+/* 부제목 스타일 */
+h2 {
+    font-size: 2rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* 본문 텍스트 스타일 */
+p {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* 버튼 스타일 */
+a {
+    font-size: 1.2rem;
+    color: white;
+    background-color: #3498db;
+    padding: 15px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼 hover 효과 */
+a:hover {
+    background-color: #2980b9;
+}
+
+/* 반응형 디자인: 작은 화면에서 텍스트 크기 줄이기 */
+@media (max-width: 768px) {
+    h1.display-1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    a {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}

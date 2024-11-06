@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/css/myInfo.css">
+  <title>회원 탈퇴</title>
+</head>
+<body>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<!-- 이메일 입력 폼 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+  <main>
+    <h1>회원 탈퇴</h1>
+    <div class="split--div"></div>
+
+    <!-- 회원 탈퇴 이메일 입력 폼 -->
+    <form action="/deleteRegister" method="post">
+      <div>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" placeholder="탈퇴할 이메일을 입력하세요" required>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-dark">회원 탈퇴</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<footer>
+  <!-- 필요 시 -->
+</footer>
+</body>
+</html>
