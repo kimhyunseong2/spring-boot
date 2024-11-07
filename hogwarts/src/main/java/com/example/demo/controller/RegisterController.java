@@ -5,8 +5,8 @@ package com.example.demo.controller;
 
 import com.example.demo.service.DuplicateMemberException;
 import com.example.demo.dto.RegisterRequest;
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.entity.Member;
+import com.example.demo.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Controller
 public class RegisterController {
 	@Autowired
-	private UserRepository userRepository;
+	private MemberRepository memberRepository;
 
 	@GetMapping("/register")
 	public String registerForm(Model model) {
@@ -36,20 +36,20 @@ public class RegisterController {
 		if(errors.hasErrors()) {
 			return "register";
 		}
-		if (userRepository.findByEmail(regReq.getEmail()).isPresent()) {
+		if (memberRepository.findByEmail(regReq.getEmail()).isPresent()) {
 			// 이메일 중복이 있을 경우
 			errors.rejectValue("email", "duplicate");
 			return "register";
 		}
 		try {
-			User newUser = User.builder()
+			Member newUser = Member.builder()
 					.email(regReq.getEmail())
 					.password(passwordEncoder().encode(regReq.getPassword()))
 					.regdate(LocalDateTime.now())
 					.username(regReq.getName())
 					.role("USER")
 					.build();
-			userRepository.save(newUser);
+			memberRepository.save(newUser);
 			return "/login";
 		} catch (DuplicateMemberException ex) {
 			errors.reject("register.failed", "회원가입 실패");

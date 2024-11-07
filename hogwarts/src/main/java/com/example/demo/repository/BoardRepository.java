@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    @Query("SELECT b FROM Board b WHERE b.user.role = 'ADMIN' ORDER BY b.createdDate DESC")
+    @Query("SELECT b FROM Board b WHERE b.username IN (SELECT m.username FROM Member m WHERE m.role = 'ADMIN') ORDER BY b.createdDate DESC")
     List<Board> selectLatestPost();
 
 }

@@ -44,53 +44,14 @@
     </tr>
     </tbody>
   </table>
-  <a href="#" class="btn" id="openModalBtn">글 쓰기</a>
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" id="closeModalBtn">&times;</span>
-      <h2>글 쓰기</h2>
-      <form action="/board/save" method="POST">
-        <label for="title">제목</label>
-        <input type="text" id="title" name="title" required>
-
-        <label for="content">내용</label>
-        <textarea id="content" name="content" required></textarea>
-
-        <button type="submit">작성</button>
-      </form>
-    </div>
-  </div>
+  <a href="/board/boardWrite" class="btn">글 쓰기</a>
 </div>
+
 
 <!-- 푸터 -->
 <footer>
   COPYRIGHT(C) 2024 <a href="https://github.com/seoyounglee0105/university_management_project">호그와트 UNIVERSITY</a>. ALL RIGHTS RESERVED.
 </footer>
-<script>
-  // 모달 열기 버튼
-  const openModalBtn = document.getElementById('openModalBtn');
-  // 모달 닫기 버튼
-  const closeModalBtn = document.getElementById('closeModalBtn');
-  // 모달 요소
-  const modal = document.getElementById('modal');
 
-  // 모달 열기
-  openModalBtn.addEventListener('click', function(event) {
-    event.preventDefault(); // 기본 링크 동작 방지
-    modal.style.display = 'block'; // 모달을 보이게 함
-  });
-
-  // 모달 닫기
-  closeModalBtn.addEventListener('click', function() {
-    modal.style.display = 'none'; // 모달을 숨김
-  });
-
-  // 모달 외부 클릭 시 모달 닫기
-  window.addEventListener('click', function(event) {
-    if (event.target === modal) {
-      modal.style.display = 'none'; // 모달을 숨김
-    }
-  });
-</script>
 </body>
 </html>

@@ -25,7 +25,7 @@
               <tr th:if="${latestPost != null}">
                 <td th:text="${latestPost.id}"></td>
                 <td th:text="${latestPost.title}"></td>
-                <td th:text="${latestPost.createdDate}"></td>
+                <td th:text="${#dates.format(latestPost.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
               </tr>
               <!-- 최신 게시글이 없을 경우 -->
               <tr th:if="${latestPost == null}">

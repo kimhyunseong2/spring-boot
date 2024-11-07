@@ -14,6 +14,11 @@
     <h1>회원 탈퇴</h1>
     <div class="split--div"></div>
 
+    <!-- 에러 메시지 표시 -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+      <p th:text="${errorMessage}"></p>
+    </div>
+
     <!-- 회원 탈퇴 이메일 입력 폼 -->
     <form action="/deleteRegister" method="post">
       <div>

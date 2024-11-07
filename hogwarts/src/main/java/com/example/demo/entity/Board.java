@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -24,9 +25,8 @@ public class Board {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;  // 작성자 (사용자)
+
+    private String username;  // 작성자 (사용자)
 
     @Column(nullable = false)
     private LocalDateTime createdDate = LocalDateTime.now();
@@ -37,4 +37,6 @@ public class Board {
 
     @Column(nullable = false)
     private int hit = 0;
+
+
 }

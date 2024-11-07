@@ -1,11 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Board;
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.entity.Member;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.BoardService;
 import com.example.demo.service.UserNotFoundException;
 import com.example.demo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,17 +19,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 @Controller
 public class BeginCotroller {
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private UserService userService;
@@ -55,17 +59,17 @@ public class BeginCotroller {
     public String getProfile(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+
             String username = authentication.getName();
 
 
-            User user = userService.getUserDetails(username);
+            Member member = userService.getUserDetails(username);
 
 
-            model.addAttribute("userId", user.getId());
-            model.addAttribute("userName", user.getUsername());
-            model.addAttribute("email", user.getEmail());
-        }
+            model.addAttribute("userId", member.getId());
+            model.addAttribute("userName", member.getUsername());
+            model.addAttribute("email", member.getEmail());
+
 
         return "/info/profile";
     }
@@ -75,22 +79,26 @@ public class BeginCotroller {
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String username = authentication.getName(); // 로그인한 사용자 이름
 
-            User user = userService.getUserDetails(username);
+            Member member = userService.getUserDetails(username);
 
 
-            model.addAttribute("userId", user.getId());
-            model.addAttribute("userName", user.getUsername());
-            model.addAttribute("email", user.getEmail());
-            model.addAttribute("password", passwordEncoder().encode(user.getPassword()));
+            model.addAttribute("userId", member.getId());
+            model.addAttribute("userName", member.getUsername());
+            model.addAttribute("email", member.getEmail());
+
         }
         return "updateProfile"; //
     }
 
     // 회원정보 수정 처리
     @PostMapping("/update")
-    public String updateProfile(@ModelAttribute User user, Model model) {
-
-        userService.updateUser(user);
+    public String updateProfile(@ModelAttribute Member member) {
+        if (member.getPassword() == null || member.getPassword().isEmpty()) {
+            // 비밀번호가 비어있으면, 기존 비밀번호를 유지
+            Member existingUser = userService.getUserDetails(member.getUsername());
+            member.setPassword(existingUser.getPassword());
+        }
+        userService.updateUser(member);
 
         return "redirect:/info/profile";
     }
@@ -102,19 +110,26 @@ public class BeginCotroller {
 
     // 이메일로 회원 탈퇴 처리하는 POST 요청
     @PostMapping("/deleteRegister")
-    public String deleteUserByEmail(@RequestParam("email") String email) {
+    public String deleteUserByEmail(@RequestParam("email") String email, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         try {
             userService.deleteUserByEmail(email);  // 사용자 삭제
-            return "redirect:/logout";  // 탈퇴 후 로그아웃 처리
+            redirectAttributes.addFlashAttribute("Message", "회원탈퇴가 완료되었습니다");
+            return "redirect:/login";
         } catch (UserNotFoundException e) {
-            return "redirect:/error";  // 사용자 이메일이 없는 경우 에러 페이지로 리디렉션
+            String referer = request.getHeader("Referer");  // 이전 페이지 URL을 가져옵니다.
+
+
+            redirectAttributes.addFlashAttribute("errorMessage", "해당 이메일이 아닙니다.");
+
+            // 이전 페이지로 리디렉션
+            return "redirect:" + referer; // 사용자 이메일이 없는 경우 에러 페이지로 리디렉션
         }
     }
 
 
     @PostConstruct
     public void init() {
-        User user = User.builder()
+        Member member = Member.builder()
                 .id(1001L)
                 .username("관리자")
                 .password(passwordEncoder().encode("1234"))
@@ -122,7 +137,7 @@ public class BeginCotroller {
                 .email("admin@korea.com")
                 .role("ADMIN")
                 .build();
-        userRepository.save(user);
+        memberRepository.save(member);
     }
     private PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -134,6 +149,7 @@ public class BeginCotroller {
                             @RequestParam(required = false) String logout,
                             Model model) {
 
+
         if (error != null) {
 
             model.addAttribute("errorMessage", "로그인 실패: 아이디나 비밀번호를 확인하세요.");
@@ -144,6 +160,8 @@ public class BeginCotroller {
             model.addAttribute("logoutMessage", "로그아웃되었습니다.");
 
         }
+
+
         return "login";
     }
 
@@ -153,7 +171,7 @@ public class BeginCotroller {
 
     @GetMapping("/role/admin2")
     public String getAllUsers(Model model) {
-        List<User> users = userService.getAllUsers();
+        List<Member> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "/role/admin2";
     }
