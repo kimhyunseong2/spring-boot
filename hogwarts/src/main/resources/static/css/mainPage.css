@@ -26,34 +26,37 @@
 }
 
 .main--page--notice {
-	margin-right: 120px;
+	flex: 2 1 60%;  /* 기본적으로 60% 크기를 차지하며, 최소 크기를 1로 설정 */
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+	padding: 20px;
+	margin-bottom: 20px;
 }
 
-.main--page--notice tr td:first-of-type {
-	width: 450px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: inline-block;
-	margin-right: 20px;
+/* 공지사항 테이블 스타일 */
+.board_list {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
 }
 
-.main--page--notice tr td a {
-	font-size: 19px;
+.board_list th, .board_list td {
+	padding: 12px 15px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
 }
 
-.main--page--calander tr td:first-of-type {
-	padding-right: 28px;
-	text-align: right;
+.board_list tr:nth-child(even) {
+	background-color: #f9f9f9;
 }
 
-.main--page--calander tr td:last-of-type {
-	font-size: 19px;
-	max-width: 400px;
-	min-width: 341px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+/* 공지사항이 없을 때 스타일 */
+.board_list tr td[colspan="4"] {
+	text-align: center;
+	color: #aaa;
+	font-size: 16px;
+	padding: 15px 0;
 }
 
 .main--page--split {
@@ -128,5 +131,7 @@ footer {
 	margin: 80px 0 30px 0;
 	text-align: center;
 }
+
+
 
 

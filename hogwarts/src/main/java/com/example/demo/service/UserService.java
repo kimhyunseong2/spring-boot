@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Member;
+import com.example.demo.repository.BoardRepository;
 import com.example.demo.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
 
     public Member getUserDetails(String username) {
         return memberRepository.findByUsername(username);
@@ -34,8 +38,10 @@ public class UserService {
 
         if (user.isPresent()) {
             memberRepository.delete(user.get());  // 사용자 삭제
+            boardRepository.deleteByUsername(user.get().getUsername());
         } else {
             throw new UserNotFoundException("해당 이메일을 가진 사용자가 없습니다.");
         }
+
     }
 }

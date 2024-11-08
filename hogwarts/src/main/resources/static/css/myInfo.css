@@ -55,3 +55,27 @@ form {
 .update--button {
 	margin: 10px 0 20px;
 }
+/* 이메일 입력 필드 스타일 */
+input[type="email"] {
+	width: 100%;  /* 입력 필드를 부모 요소의 100% 너비로 설정 */
+	padding: 12px;  /* 여백을 더 크게 설정 */
+	font-size: 18px;  /* 폰트 크기를 크게 설정 */
+	border-radius: 8px;  /* 부드러운 모서리 설정 */
+	border: 1px solid #ccc;  /* 얇은 회색 테두리 */
+	box-sizing: border-box;  /* padding과 border가 요소 크기에 포함되도록 설정 */
+	margin-top: 8px;  /* 상단 여백 */
+}
+
+/* 이메일 입력 필드가 포커스될 때 스타일 */
+input[type="email"]:focus {
+	border-color: #007bff;  /* 포커스 시 파란색 테두리 */
+	outline: none;  /* 기본 포커스 윤곽선 제거 */
+}
+
+/* 이메일 라벨 스타일 */
+label[for="email"] {
+	font-size: 18px;  /* 라벨의 글씨 크기 조정 */
+	font-weight: 600;  /* 글씨 두껍게 */
+	margin-bottom: 10px;  /* 아래쪽 여백 */
+	display: block;  /* 입력 필드 위에 라벨이 적당히 배치되도록 설정 */
+}

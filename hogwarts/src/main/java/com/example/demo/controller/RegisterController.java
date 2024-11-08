@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +33,8 @@ public class RegisterController {
 
 	// 회원가입 처리
 	@PostMapping("/register")
-	public String registerUser(@Validated RegisterRequest regReq, BindingResult errors) {
+	public String registerUser(@Validated RegisterRequest regReq, BindingResult errors,
+							   RedirectAttributes redirectAttributes) {
 		if(errors.hasErrors()) {
 			return "register";
 		}
@@ -50,7 +52,8 @@ public class RegisterController {
 					.role("USER")
 					.build();
 			memberRepository.save(newUser);
-			return "/login";
+			redirectAttributes.addFlashAttribute("Success", "회원가입이 완료했습니다");
+			return "redirect:/login";
 		} catch (DuplicateMemberException ex) {
 			errors.reject("register.failed", "회원가입 실패");
 			return "register";

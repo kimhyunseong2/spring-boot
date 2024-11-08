@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,13 +46,14 @@ public class BeginCotroller {
     public String main(Model model) throws Exception {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
 
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
 
             String username = authentication.getName();
             model.addAttribute("username", username);
         }
-        Board latestPost = boardService.selectLatestPost(); // 최신 게시글 조회
+        List<Board> latestPost = boardService.selectLatestPost(); // 최신 게시글 조회
         model.addAttribute("latestPost", latestPost);
         return "main";
     }
@@ -110,9 +113,13 @@ public class BeginCotroller {
 
     // 이메일로 회원 탈퇴 처리하는 POST 요청
     @PostMapping("/deleteRegister")
-    public String deleteUserByEmail(@RequestParam("email") String email, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public String deleteUserByEmail(@RequestParam("email") String email, HttpServletRequest request,
+                                    RedirectAttributes redirectAttributes, HttpServletResponse response) {
         try {
             userService.deleteUserByEmail(email);  // 사용자 삭제
+            SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+            logoutHandler.logout(request, response, null);
+
             redirectAttributes.addFlashAttribute("Message", "회원탈퇴가 완료되었습니다");
             return "redirect:/login";
         } catch (UserNotFoundException e) {

@@ -16,20 +16,30 @@
           <!-- 공지사항 -->
           <div class="main--page--notice">
             <h3>
-              <a href="/notice">공지사항</a>
+              <a href="/board/boardList">조회수 많은글</a>
             </h3>
             <div class="main--page--split"></div>
             <table class="board_list">
+              <thead>
+              <tr>
+                <th>글 번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+              </tr>
+              </thead>
               <tbody>
               <!-- 최신 게시글이 있을 경우 출력 -->
-              <tr th:if="${latestPost != null}">
-                <td th:text="${latestPost.id}"></td>
-                <td th:text="${latestPost.title}"></td>
-                <td th:text="${#dates.format(latestPost.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+              <tr th:each="post : ${latestPost}">
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.title}"></td>
+                <td th:text="${post.username}"></td>
+                <td th:text="${post.hit}"></td>
               </tr>
+
               <!-- 최신 게시글이 없을 경우 -->
-              <tr th:if="${latestPost == null}">
-                <td colspan="3">등록된 게시글이 없습니다.</td>
+              <tr th:if="${latestPost == null or latestPost.isEmpty()}">
+                <td colspan="4">등록된 게시글이 없습니다.</td>
               </tr>
               </tbody>
             </table>
@@ -85,8 +95,6 @@
 <footer>
   COPYRIGHT(C) 2024 <a href="https://github.com/seoyounglee0105/university_management_project">호그와트 UNIVERSITY</a>. ALL RIGHTS RESERVED.
 </footer>
-
-</div>
 
 </body>
 </html>

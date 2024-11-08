@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/register/**").permitAll()
-//                .antMatchers("/board/**").permitAll()
+                .antMatchers("/board/**").authenticated()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/role/admin").hasRole("ADMIN")

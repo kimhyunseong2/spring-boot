@@ -17,6 +17,12 @@
 <!-- 게시판 영역 -->
 <div class="board-container">
   <h2>게시글 목록</h2>
+  <div class="search-container">
+    <form action="/board/search" method="get">
+      <input type="text" name="keyword" placeholder="검색어를 입력하세요" />
+      <button type="submit">검색</button>
+    </form>
+  </div>
   <table class="board_list">
     <colgroup>
       <col width="15%"/>
@@ -35,9 +41,9 @@
     <tbody>
     <tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
       <td th:text="${list.id}"></td>
-      <td class="title"><a href="/board/openBoardDetail?id=" th:attrappend="href=${list.id}" th:text="${list.title}"></a></td>
+      <td class="title"><a href="/board/boardDetail?id=" th:attrappend="href=${list.id}" th:text="${list.title}"></a></td>
       <td th:text="${list.hit}"></td>
-      <td th:text="${list.createdDate}"></td>
+      <td th:text="${#temporals.format(list.createdDate, 'yyyy/MM/dd HH:mm')}"></td>
     </tr>
     <tr th:unless="${#lists.size(list)} > 0">
       <td colspan="4">게시물이 없습니다</td>
@@ -48,10 +54,6 @@
 </div>
 
 
-<!-- 푸터 -->
-<footer>
-  COPYRIGHT(C) 2024 <a href="https://github.com/seoyounglee0105/university_management_project">호그와트 UNIVERSITY</a>. ALL RIGHTS RESERVED.
-</footer>
 
 </body>
 </html>

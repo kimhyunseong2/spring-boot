@@ -47,8 +47,11 @@
             <div th:if="${logoutMessage}" class="alert alert-success">
               <span th:text="${logoutMessage}"></span>
             </div>
-            <div th:if="${Message}" class="alert alert-info">
+            <div th:if="${Message}" class="alert alert-danger">
               <p th:text="${Message}"></p>
+            </div>
+            <div th:if="${Success}" class="alert alert-success">
+              <p th:text="${Success}"></p>
             </div>
 
             <!-- 로그인 하단 링크 -->
@@ -63,10 +66,7 @@
   </div>
 </div>
 
-<!-- 푸터 -->
-<footer>
-  COPYRIGHT(C) 2024 <a href="https://github.com/seoyounglee0105/university_management_project">호그와트 UNIVERSITY</a>. ALL RIGHTS RESERVED.
-</footer>
+
 
 </body>
 </html>

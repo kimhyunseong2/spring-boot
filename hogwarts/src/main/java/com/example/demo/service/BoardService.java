@@ -2,24 +2,27 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Board;
 import com.example.demo.repository.BoardRepository;
-import com.example.demo.repository.MemberRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import java.time.LocalDateTime;
-import java.util.Date;
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public Board selectLatestPost() throws Exception {
-        List<Board> results = boardRepository.selectLatestPost();
-        return results.isEmpty() ? null : results.get(0);
+    public List<Board> selectLatestPost() throws Exception {
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("hit")));
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+        return boardPage.getContent();
 
     }
 
@@ -30,6 +33,35 @@ public class BoardService {
     public void insertBoard(Board board) {
         boardRepository.save(board);
     }
+
+    @Transactional
+    public Board selectBoardDetail(Long id) throws Exception{
+        Board board = boardRepository.selectBoardDetail(id);
+        boardRepository.updateHitCount(id);
+        return board;
+    }
+
+    @Transactional
+    public void updateBoard(Board board) {
+        Board updateBoard = boardRepository.findById(board.getId())
+                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+        updateBoard.setTitle(board.getTitle());
+        updateBoard.setContent(board.getContent());
+        updateBoard.setModifyDate(board.getModifyDate());
+        boardRepository.save(updateBoard);
+    }
+
+    @Transactional
+    public void deleteBoard(Long id) throws Exception{
+        boardRepository.deleteById(id);
+    }
+
+    @Transactional
+    public List<Board> searchBoard(String keyword) {
+        return boardRepository.findByTitleContaining(keyword);
+    }
+
+
 
 
 

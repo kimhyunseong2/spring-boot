@@ -2,28 +2,21 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Board;
 
-import com.example.demo.entity.Member;
 import com.example.demo.repository.BoardRepository;
-import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
 
 @Controller
 @RequestMapping("/board")
@@ -39,7 +32,7 @@ public class boardController {
     public String boardList(Model model) {
         List<Board> boards =  boardService.selectAllPosts();
         model.addAttribute("list", boards);
-        return "/board/boardList";
+        return "board/boardList";
     }
 
     @GetMapping("/boardWrite")
@@ -67,6 +60,41 @@ public class boardController {
         // 게시글 목록으로 리다이렉트
         return "redirect:/board/boardList";
     }
+
+    @GetMapping("/boardDetail")
+    public String boardDetail(@RequestParam Long id, Model model) throws Exception {
+        Board board = boardService.selectBoardDetail(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("board", board);
+        model.addAttribute("loggedInUsername", loggedInUsername);
+        return "/board/boardDetail";
+    }
+
+    @PostMapping("/updateBoard")
+    public String updateBoard(Board board) throws Exception {
+        boardService.updateBoard(board);
+        return "redirect:/board/boardList";
+    }
+
+    @PostMapping("/deleteBoard")
+    public String deleteBoard(Long id) throws Exception {
+        boardService.deleteBoard(id);
+        return "redirect:/board/boardList";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("keyword") String keyword, Model model) {
+        List<Board> searchList = boardService.searchBoard(keyword);
+        model.addAttribute("searchList", searchList);
+        return "board/boardList";
+    }
+
+
+
 }
 
 

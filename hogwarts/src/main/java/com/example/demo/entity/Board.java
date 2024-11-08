@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -37,6 +38,9 @@ public class Board {
 
     @Column(nullable = false)
     private int hit = 0;
+
+    @Column(nullable = false)
+    private int likeCount = 0;
 
 
 }
