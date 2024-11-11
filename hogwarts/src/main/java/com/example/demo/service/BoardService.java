@@ -41,6 +41,7 @@ public class BoardService {
         return board;
     }
 
+
     @Transactional
     public void updateBoard(Board board) {
         Board updateBoard = boardRepository.findById(board.getId())
@@ -56,12 +57,9 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
-    @Transactional
-    public List<Board> searchBoard(String keyword) {
-        return boardRepository.findByTitleContaining(keyword);
+    public List<Board> searchPostsByTitle(String keyword) {
+        return boardRepository.findByTitleContainingIgnoreCase(keyword);
     }
-
-
 
 
 

@@ -5,6 +5,10 @@ import com.example.demo.entity.Board;
 import com.example.demo.repository.BoardRepository;
 import com.example.demo.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,9 +33,22 @@ public class boardController {
 
 
     @GetMapping("/boardList")
-    public String boardList(Model model) {
-        List<Board> boards =  boardService.selectAllPosts();
-        model.addAttribute("list", boards);
+    public String boardList(Model model,@PageableDefault(page = 0, size = 5) Pageable pageable,
+                                        @RequestParam(value = "keyword", required = false) String keyword) {
+        List<Board> boards;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            // 제목에 검색어가 포함된 게시글만 검색
+            boards = boardService.searchPostsByTitle(keyword);
+        } else {
+            // 모든 게시글을 가져옴
+            boards = boardService.selectAllPosts();
+        }
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min(start + pageable.getPageSize(), boards.size());
+        final Page<Board> page = new PageImpl<>(boards.subList(start, end), pageable, boards.size());
+        model.addAttribute("list", page);
+        model.addAttribute("keyword", keyword);
         return "board/boardList";
     }
 
@@ -74,6 +91,7 @@ public class boardController {
         return "/board/boardDetail";
     }
 
+
     @PostMapping("/updateBoard")
     public String updateBoard(Board board) throws Exception {
         boardService.updateBoard(board);
@@ -86,12 +104,7 @@ public class boardController {
         return "redirect:/board/boardList";
     }
 
-    @GetMapping("/search")
-    public String search(@RequestParam("keyword") String keyword, Model model) {
-        List<Board> searchList = boardService.searchBoard(keyword);
-        model.addAttribute("searchList", searchList);
-        return "board/boardList";
-    }
+
 
 
 
