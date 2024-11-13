@@ -12,14 +12,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -35,6 +35,10 @@ public class boardController {
     @GetMapping("/boardList")
     public String boardList(Model model,@PageableDefault(page = 0, size = 5) Pageable pageable,
                                         @RequestParam(value = "keyword", required = false) String keyword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         List<Board> boards;
 
         if (keyword != null && !keyword.isEmpty()) {
@@ -54,6 +58,10 @@ public class boardController {
 
     @GetMapping("/boardWrite")
     public String boardWrite(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = authentication.getName();
+        model.addAttribute("username", username);
 
         Board board = new Board();
         model.addAttribute("board", board);
@@ -81,15 +89,20 @@ public class boardController {
     @GetMapping("/boardDetail")
     public String boardDetail(@RequestParam Long id, Model model) throws Exception {
         Board board = boardService.selectBoardDetail(id);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedInUsername = authentication.getName();
+        String username = authentication.getName();
+
+        model.addAttribute("username", username);
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("board", board);
-        model.addAttribute("loggedInUsername", loggedInUsername);
-        return "/board/boardDetail";
+        model.addAttribute("loggedInUsername", username);
+        return "board/boardDetail";
     }
+
+
 
 
     @PostMapping("/updateBoard")
@@ -105,8 +118,16 @@ public class boardController {
     }
 
 
+    @PostMapping("/toggleLike")
+    public String toggleLike(@RequestParam Long id, Authentication authentication) {
+        String username = authentication.getName();  // 현재 로그인한 사용자 이름
 
+        // 좋아요 추가/취소 처리
+        boardService.toggleLike(id, username);
 
+        // 게시글 상세 화면으로 리다이렉트
+        return "redirect:/board/boardDetail?id=" + id;
+    }
 
 }
 

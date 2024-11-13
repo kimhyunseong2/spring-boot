@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Board;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.BoardRepository;
 import com.example.demo.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +23,8 @@ public class UserService {
     @Autowired
     private BoardRepository boardRepository;
 
+
+
     public Member getUserDetails(String username) {
         return memberRepository.findByUsername(username);
     }
@@ -28,9 +34,15 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(Member user) {
-         memberRepository.saveAndFlush(user);
+    public void updateUser(@ModelAttribute Member member) {
+        Member updateMember = memberRepository.findById(member.getId())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        updateMember.setUsername(member.getUsername());
+        updateMember.setEmail(member.getEmail());
+        memberRepository.save(updateMember);
     }
+
+
 
     @Transactional
     public void deleteUserByEmail(String email) {

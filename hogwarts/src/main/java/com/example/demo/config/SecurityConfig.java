@@ -40,7 +40,8 @@ public class SecurityConfig {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login?logout=true").permitAll();
+                .logoutSuccessUrl("/login?logout=true")
+                .permitAll();
         http.exceptionHandling().accessDeniedPage("/role/accessDenied");
 
         return http.build();

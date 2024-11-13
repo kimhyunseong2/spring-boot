@@ -2,9 +2,6 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Board;
 
-import com.mysql.cj.protocol.x.Notice;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,7 +23,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Override
     Optional<Board> findById(Long id);
 
+
     List<Board> findByTitleContainingIgnoreCase(String title);
 
     void deleteByUsername(String username);
+
 }

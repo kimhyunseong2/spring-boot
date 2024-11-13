@@ -16,10 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
@@ -46,7 +43,6 @@ public class BeginCotroller {
     public String main(Model model) throws Exception {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
 
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
 
@@ -62,13 +58,10 @@ public class BeginCotroller {
     public String getProfile(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-
             String username = authentication.getName();
-
+            model.addAttribute("username", username);
 
             Member member = userService.getUserDetails(username);
-
-
             model.addAttribute("userId", member.getId());
             model.addAttribute("userName", member.getUsername());
             model.addAttribute("email", member.getEmail());
@@ -80,29 +73,22 @@ public class BeginCotroller {
     @GetMapping("/update")
     public String showUpdateForm(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
-            String username = authentication.getName(); // 로그인한 사용자 이름
+            String username = authentication.getName();
+            model.addAttribute("username", username);
 
             Member member = userService.getUserDetails(username);
-
-
             model.addAttribute("userId", member.getId());
             model.addAttribute("userName", member.getUsername());
             model.addAttribute("email", member.getEmail());
 
         }
-        return "updateProfile"; //
+        return "updateProfile";
     }
 
     // 회원정보 수정 처리
     @PostMapping("/update")
     public String updateProfile(@ModelAttribute Member member) {
-        if (member.getPassword() == null || member.getPassword().isEmpty()) {
-            // 비밀번호가 비어있으면, 기존 비밀번호를 유지
-            Member existingUser = userService.getUserDetails(member.getUsername());
-            member.setPassword(existingUser.getPassword());
-        }
         userService.updateUser(member);
-
         return "redirect:/info/profile";
     }
 
@@ -186,5 +172,6 @@ public class BeginCotroller {
     @GetMapping("/role/accessDenied")
     public void accessDenied() {
     }
+
 
 }
