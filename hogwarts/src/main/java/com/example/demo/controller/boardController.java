@@ -87,8 +87,8 @@ public class boardController {
     }
 
     @GetMapping("/boardDetail")
-    public String boardDetail(@RequestParam Long id, Model model) throws Exception {
-        Board board = boardService.selectBoardDetail(id);
+    public String boardDetail(@RequestParam Long id,@RequestParam(defaultValue = "true") boolean increaseHitCount, Model model) throws Exception {
+        Board board = boardService.selectBoardDetail(id,increaseHitCount);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -126,7 +126,7 @@ public class boardController {
         boardService.toggleLike(id, username);
 
         // 게시글 상세 화면으로 리다이렉트
-        return "redirect:/board/boardDetail?id=" + id;
+        return "redirect:/board/boardDetail?id=" + id + "&increaseHitCount=false";
     }
 
 }

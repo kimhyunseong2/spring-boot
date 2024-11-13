@@ -35,11 +35,13 @@
             <th>ID</th>
             <th>성명</th>
             <th>이메일</th>
+            <th>가입일</th>
           </tr>
           <tr th:each="user : ${users}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.email}"></td>
+            <td th:text="${#temporals.format(user.regdate,'yyyy/MM/dd HH:mm')}"></td>
           </tr>
         </table>
       </div>

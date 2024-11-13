@@ -39,16 +39,20 @@
       <table border="1" class="input--table">
         <tr>
         <th>ID</th>
-        <td><input type="text" name="id" th:value="${userId}" readonly /></td>
+          <td><input type="text" name="id" th:value="${member.id}" readonly /></td>
         </tr>
 
         <tr>
           <th>성명</th>
-          <td><input type="text" name="username" th:value="${userName}" /></td>
+          <td><input type="text" name="username" th:value="${member.username}" readonly/></td>
         </tr>
         <tr>
           <th>email</th>
-          <td><input type="email" name="email" th:value="${email}" /></td>
+          <td><input type="email" name="email" th:value="${member.email}" /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" name="password" placeholder="비밀번호를 변경하려면 입력" /></td>
         </tr>
 
       </table>

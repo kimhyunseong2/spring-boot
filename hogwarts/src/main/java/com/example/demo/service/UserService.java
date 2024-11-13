@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Board;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.BoardRepository;
 import com.example.demo.repository.MemberRepository;
@@ -24,6 +23,9 @@ public class UserService {
     private BoardRepository boardRepository;
 
 
+    public long getTotalUsers() {
+        return memberRepository.count();
+    }
 
     public Member getUserDetails(String username) {
         return memberRepository.findByUsername(username);
@@ -37,12 +39,15 @@ public class UserService {
     public void updateUser(@ModelAttribute Member member) {
         Member updateMember = memberRepository.findById(member.getId())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-        updateMember.setUsername(member.getUsername());
-        updateMember.setEmail(member.getEmail());
-        memberRepository.save(updateMember);
+        if (member.getPassword() != null && !member.getPassword().isEmpty()) {
+            updateMember.setPassword(passwordEncoder().encode(member.getPassword()));  // 새 비밀번호로 업데이트
+        }
+            updateMember.setEmail(member.getEmail());
+            memberRepository.save(updateMember);
     }
-
-
+    private PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Transactional
     public void deleteUserByEmail(String email) {
@@ -56,4 +61,6 @@ public class UserService {
         }
 
     }
+
+
 }

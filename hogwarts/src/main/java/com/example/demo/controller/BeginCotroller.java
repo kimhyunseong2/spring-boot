@@ -60,40 +60,40 @@ public class BeginCotroller {
 
             String username = authentication.getName();
             model.addAttribute("username", username);
-
             Member member = userService.getUserDetails(username);
             model.addAttribute("userId", member.getId());
             model.addAttribute("userName", member.getUsername());
             model.addAttribute("email", member.getEmail());
-
 
         return "/info/profile";
     }
     // 회원정보 수정 폼
     @GetMapping("/update")
     public String showUpdateForm(Model model, Authentication authentication) {
+
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String username = authentication.getName();
             model.addAttribute("username", username);
-
             Member member = userService.getUserDetails(username);
-            model.addAttribute("userId", member.getId());
-            model.addAttribute("userName", member.getUsername());
-            model.addAttribute("email", member.getEmail());
-
+            model.addAttribute("member", member);
+            System.out.println(member);
         }
         return "updateProfile";
     }
 
-    // 회원정보 수정 처리
     @PostMapping("/update")
     public String updateProfile(@ModelAttribute Member member) {
         userService.updateUser(member);
         return "redirect:/info/profile";
     }
 
+
     @GetMapping("/deleteRegister")
-    public String showDeleteForm() {
+    public String showDeleteForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         return "deleteRegister";  // deleteRegister.html 페이지로 이동
     }
 
@@ -158,20 +158,7 @@ public class BeginCotroller {
         return "login";
     }
 
-    @GetMapping("/role/admin")
-    public void admin() {
-    }
 
-    @GetMapping("/role/admin2")
-    public String getAllUsers(Model model) {
-        List<Member> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "/role/admin2";
-    }
-
-    @GetMapping("/role/accessDenied")
-    public void accessDenied() {
-    }
 
 
 }

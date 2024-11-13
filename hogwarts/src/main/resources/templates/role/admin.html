@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="/css/admin.css">
 <head>
     <meta charset="UTF-8">
-    <title>admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 대시보드</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-<h2>admin</h2>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>관리자 대시보드</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/role/admin" class="selected--menu">관리자 대시보드</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+        <main>
+            <h1>관리자 대시보드</h1>
+            <div class="split--div"></div>
+        <!-- 통계 영역 -->
+        <div class="dashboard-stats">
+            <div class="stat-item">
+                <h3>총 사용자 수</h3>
+                <p th:text="${totalUsers}">0</p>
+            </div>
+            <div class="stat-item">
+                <h3>총 게시글 수</h3>
+                <p th:text="${totalBoards}">0</p>
+            </div>
+        </div>
+
+        <!-- 액션 버튼 -->
+        <div class="dashboard-actions">
+            <a href="/role/admin2">사용자 관리</a>
+            <a href="/admin/boards">게시글 관리</a>
+        </div>
+        </main>
+    </div>
 </body>
 </html>

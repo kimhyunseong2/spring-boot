@@ -21,6 +21,10 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
+    public long getTotalBoards() {
+        return boardRepository.count();
+    }
+
 
     public List<Board> selectLatestPost() throws Exception {
         Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("hit")));
@@ -38,9 +42,11 @@ public class BoardService {
     }
 
     @Transactional
-    public Board selectBoardDetail(Long id) throws Exception{
+    public Board selectBoardDetail(Long id,boolean increaseHitCount) throws Exception{
         Board board = boardRepository.selectBoardDetail(id);
-        boardRepository.updateHitCount(id);
+        if (increaseHitCount) {
+            boardRepository.updateHitCount(id);  // 조회수 증가
+        }
         return board;
     }
 
