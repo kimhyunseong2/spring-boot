@@ -2,8 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Board;
 
+import com.example.demo.entity.Comment;
+import com.example.demo.entity.Reply;
 import com.example.demo.repository.BoardRepository;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +32,7 @@ public class boardController {
     private BoardService boardService;
 
     @Autowired
-    private BoardRepository boardRepository;
+    private CommentService commentService;
 
 
     @GetMapping("/boardList")
@@ -90,6 +93,12 @@ public class boardController {
     public String boardDetail(@RequestParam Long id,@RequestParam(defaultValue = "true") boolean increaseHitCount, Model model) throws Exception {
         Board board = boardService.selectBoardDetail(id,increaseHitCount);
 
+        List<Comment> comments = commentService.getComments(id);  // 게시글 ID로 댓글 목록 조회
+        List<Reply> replies = commentService.getReplies(id);
+
+        model.addAttribute("comments", comments);
+        model.addAttribute("replies", replies);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -102,7 +111,39 @@ public class boardController {
         return "board/boardDetail";
     }
 
+    @PostMapping("/addComment")
+    public String addComment(@RequestParam Long boardId, @RequestParam String content) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
+        commentService.addComment(boardId, username, content);
+
+
+        return "redirect:/board/boardDetail?id=" + boardId + "&increaseHitCount=false";
+    }
+
+    @PostMapping("/addReply")
+    public String addReply(@RequestParam Long boardId, @RequestParam Long commentId, @RequestParam String content) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        commentService.addReply(boardId,commentId, username, content);
+        return "redirect:/board/boardDetail?id=" + boardId + "&increaseHitCount=false";
+    }
+
+    @PostMapping("/deleteComment")
+    public String deleteComment(@RequestParam Long commentId,@RequestParam Long boardId) throws Exception {
+        commentService.deleteComment(commentId);
+        return "redirect:/board/boardDetail?id=" + boardId + "&increaseHitCount=false";
+    }
+
+    @PostMapping("/deleteReply")
+    public String deleteReply(@RequestParam Long replyId,@RequestParam Long boardId) throws Exception {
+        commentService.deleteReply(replyId);
+        return "redirect:/board/boardDetail?id=" + boardId + "&increaseHitCount=false";
+    }
 
 
     @PostMapping("/updateBoard")
