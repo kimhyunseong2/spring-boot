@@ -59,9 +59,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="board : ${list.content}">
+    <tr th:each="board : ${list.content}"
+        th:classappend="${board.role.contains('ROLE_ADMIN') ? 'admin-post' : 'user-post'}">
       <td th:text="${board.id}"></td>
-      <td><a th:href="@{/board/boardDetail(id=${board.id})}" th:text="${board.title}"></a></td>
+      <td>
+        <a th:href="@{/board/boardDetail(id=${board.id})}" th:text="${board.title}">
+        </a>
+      </td>
       <td th:text="${board.hit}"></td>
       <td th:text="${#temporals.format(board.createdDate, 'yyyy/MM/dd HH:mm')}"></td>
     </tr>

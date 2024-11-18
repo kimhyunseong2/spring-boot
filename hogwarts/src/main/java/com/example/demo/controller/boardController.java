@@ -1,12 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Board;
+import com.example.demo.entity.*;
 
-import com.example.demo.entity.Comment;
-import com.example.demo.entity.Reply;
 import com.example.demo.repository.BoardRepository;
+import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.NotificationRepository;
 import com.example.demo.service.BoardService;
 import com.example.demo.service.CommentService;
+import com.example.demo.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -41,7 +42,10 @@ public class boardController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String username = authentication.getName();
+        String role = authentication.getAuthorities().toString();
         model.addAttribute("username", username);
+        model.addAttribute("role", role);
+
         List<Board> boards;
 
         if (keyword != null && !keyword.isEmpty()) {
@@ -51,11 +55,13 @@ public class boardController {
             // 모든 게시글을 가져옴
             boards = boardService.selectAllPosts();
         }
+
         final int start = (int) pageable.getOffset();
         final int end = Math.min(start + pageable.getPageSize(), boards.size());
         final Page<Board> page = new PageImpl<>(boards.subList(start, end), pageable, boards.size());
         model.addAttribute("list", page);
         model.addAttribute("keyword", keyword);
+
         return "board/boardList";
     }
 
@@ -65,7 +71,6 @@ public class boardController {
 
         String username = authentication.getName();
         model.addAttribute("username", username);
-
         Board board = new Board();
         model.addAttribute("board", board);
         return "/board/boardWrite";
@@ -75,6 +80,8 @@ public class boardController {
         // 로그인한 사용자 이름을 가져와서 Board 객체에 설정
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();  // 로그인한 사용자 이름
+        String role = authentication.getAuthorities().toString();
+        board.setRole(role);
 
         if (username == null || username.isEmpty()) {
             throw new IllegalArgumentException("로그인한 사용자가 아닙니다."); // 예외 처리
@@ -96,13 +103,14 @@ public class boardController {
         List<Comment> comments = commentService.getComments(id);  // 게시글 ID로 댓글 목록 조회
         List<Reply> replies = commentService.getReplies(id);
 
+
         model.addAttribute("comments", comments);
         model.addAttribute("replies", replies);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-
         model.addAttribute("username", username);
+
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
         model.addAttribute("isAdmin", isAdmin);
@@ -169,6 +177,7 @@ public class boardController {
         // 게시글 상세 화면으로 리다이렉트
         return "redirect:/board/boardDetail?id=" + id + "&increaseHitCount=false";
     }
+
 
 }
 

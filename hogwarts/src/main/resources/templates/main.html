@@ -75,17 +75,25 @@
         </div>
         <br>
 
-
-
         <div class="main--page--info">
           <ul class="d-flex align-items-start" style="margin: 0;">
             <li><span class="material-symbols-rounded" style="margin-top: 2px;">notifications</span>&nbsp;&nbsp;
-            <li style="font-weight: 600; font-size: 18px;">알림
+            <li style="font-weight: 600; font-size: 18px;">알림</li>
           </ul>
-          <p>알림이 없습니다.</p>
+          <ul id="notification-list">
+            <!-- 알림이 있을 경우 동적으로 알림을 추가 -->
+            <th:block th:if="${notifications != null}">
+              <li th:each="notification : ${notifications}">
+                <p th:text="${notification.message}"></p>
+                <small th:text="${#temporals.format(notification.timestamp, 'yyyy/MM/dd HH:mm')}"></small>
+              </li>
+            </th:block>
+            <!-- 알림이 없을 경우 메시지 출력 -->
+            <th:block th:if="${notifications == null or notifications.isEmpty()}">
+              <p>알림이 없습니다.</p>
+            </th:block>
+          </ul>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -94,6 +102,5 @@
 <footer>
   COPYRIGHT(C) 2024 <a href="https://github.com/seoyounglee0105/university_management_project">호그와트 UNIVERSITY</a>. ALL RIGHTS RESERVED.
 </footer>
-
 </body>
 </html>

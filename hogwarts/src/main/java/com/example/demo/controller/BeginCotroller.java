@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Board;
 import com.example.demo.entity.Member;
+import com.example.demo.entity.Notification;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.NotificationService;
 import com.example.demo.service.UserNotFoundException;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,9 @@ public class BeginCotroller {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @GetMapping("/")
     public String main(Model model) throws Exception {
 
@@ -48,6 +53,8 @@ public class BeginCotroller {
 
             String username = authentication.getName();
             model.addAttribute("username", username);
+            List<Notification> notifications = notificationService.getNotificationsByRecipient(username);
+            model.addAttribute("notifications", notifications);
         }
         List<Board> latestPost = boardService.selectLatestPost(); // 최신 게시글 조회
         model.addAttribute("latestPost", latestPost);

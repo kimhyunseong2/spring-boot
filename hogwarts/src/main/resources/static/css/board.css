@@ -191,3 +191,10 @@ label[for="email"] {
 .update--button {
     margin: 10px 0 20px;
 }
+
+.admin-post {
+    background-color: #E0FFFF;
+    color: black;
+    font-weight: bold;
+}
+

@@ -44,9 +44,12 @@ public class Board {
     @Column(nullable = false)
     private int likeCount = 0;
 
+
     @ElementCollection
     @CollectionTable(name = "board_likes", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "username")
     private Set<String> likedUsernames = new HashSet<>();
+
+    private String role;
 
 }

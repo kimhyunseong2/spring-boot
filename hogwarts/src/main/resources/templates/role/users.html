@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>사용자 목록</title>
+  <title>회원 정보</title>
   <link rel="stylesheet" href="/css/myInfo.css">
 </head>
 <body>
@@ -14,20 +14,20 @@
   <!-- 세부 메뉴 div-->
   <div class="sub--menu">
     <div class="sub--menu--top">
-      <h2>회원정보</h2>
+      <h2>회원 정보</h2>
     </div>
     <!-- 메뉴 -->
     <div class="sub--menu--mid">
       <table class="sub--menu--table" border="1">
         <tr>
-          <td><a href="/role/users" class="selected--menu">회원정보조회</a></td>
+          <td><a href="/role/users" class="selected--menu">회원 조회</a></td>
         </tr>
       </table>
     </div>
   </div>
 
   <main>
-    <h1>회원 정보 조회</h1>
+    <h1>회원 조회</h1>
     <div class="split--div"></div>
     <div th:if="${users != null}">
     <table border="1" class="input--table">
