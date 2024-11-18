@@ -1,0 +1,314 @@
+
+/* 게시판 테이블 스타일 */
+.board_detail {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.board_detail td {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+/* 라벨 스타일 */
+.board_detail label {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* 입력 필드 스타일 */
+.board_detail input[type="text"],
+.board_detail textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* 포커스 상태 시 입력 필드 */
+.board_detail input[type="text"]:focus,
+.board_detail textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 텍스트 영역 스타일 */
+.board_detail textarea {
+    min-height: 200px;
+    resize: vertical;
+}
+
+/* 제출 버튼 스타일 */
+.container .btn {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+/* 제출 버튼 hover */
+.container .btn:hover {
+    background-color: #0056b3;
+}
+
+/* 제출 버튼 클릭 시 활성화 상태 */
+.container .btn:active {
+    background-color: #004085;
+}
+
+/* 기본적인 입력 필드 포커스 효과 */
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* 버튼들을 가로로 나열할 컨테이너 */
+.button-group {
+    display: flex;           /* Flexbox로 가로 정렬 */
+    justify-content: flex-start;  /* 버튼들을 왼쪽 정렬 (필요에 따라 center로 수정 가능) */
+    align-items: center;     /* 버튼들을 세로로 중앙 정렬 */
+    gap: 10px;               /* 버튼 간의 간격 설정 */
+    margin-top: 20px;        /* 버튼들의 상단 여백 */
+}
+
+/* 버튼 스타일 */
+a.mbtn, a.rbtn, a.dbtn {
+    text-decoration: none;  /* 기본 밑줄 제거 */
+    font-size: 16px;  /* 폰트 크기 */
+    font-weight: 600;  /* 폰트 두께 */
+    padding: 10px 20px;  /* 버튼 크기 조정 */
+    border-radius: 5px;  /* 둥근 모서리 */
+    display: inline-block;  /* 한 줄로 나열되게 설정 */
+    text-align: center;  /* 텍스트 가운데 정렬 */
+    transition: background-color 0.3s ease, color 0.3s ease;  /* 색상 변화에 부드러운 전환 효과 추가 */
+}
+
+/* 목록으로 버튼 색상 */
+a.mbtn {
+    background-color: #4CAF50;  /* 초록색 배경 */
+    color: white;  /* 글자 색은 하얀색 */
+}
+
+a.mbtn:hover {
+    background-color: #45a049;  /* 마우스를 올렸을 때 색상 변환 */
+}
+
+/* 수정하기 버튼 색상 */
+a.rbtn {
+    background-color: #007bff;  /* 파란색 배경 */
+    color: white;  /* 글자 색은 하얀색 */
+}
+
+a.rbtn:hover {
+    background-color: #0056b3;  /* 마우스를 올렸을 때 색상 변환 */
+}
+
+/* 삭제하기 버튼 색상 */
+a.dbtn {
+    background-color: #f44336;  /* 빨간색 배경 */
+    color: white;  /* 글자 색은 하얀색 */
+}
+
+a.dbtn:hover {
+    background-color: #d32f2f;  /* 마우스를 올렸을 때 색상 변환 */
+}
+
+/* 좋아요 버튼 스타일링 */
+.like-button {
+    background-color: #ffdd57;  /* 밝은 노란색 */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.like-button:hover {
+    background-color: #ffd700;  /* 호버 시 더 밝은 노란색 */
+    transform: scale(1.1);  /* 호버 시 버튼 커짐 */
+}
+
+.like-button:focus {
+    outline: none;
+}
+
+/* 좋아요 수 스타일 */
+.like-count {
+    font-size: 18px;
+    color: #333;
+    margin-left: 10px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+
+
+@keyframes likeAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+/* 댓글 섹션 스타일 */
+.comment-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* 댓글 달기 폼 스타일 */
+.comment-section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.comment-section textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    resize: none;
+    min-height: 80px;
+}
+
+.comment-section button {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-section button:hover {
+    background-color: #0056b3;
+}
+
+.comment-section button:active {
+    background-color: #004085;
+}
+
+/* 댓글 목록 스타일 */
+.comments {
+    margin-top: 30px;
+}
+
+.comments .comment {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.comments .comment p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.comments .comment strong {
+    font-size: 16px;
+    color: #007bff;
+}
+
+.comments .comment span {
+    font-size: 12px;
+    color: #888;
+    margin-left: 10px;
+}
+
+.comments .comment hr {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+/* 댓글 작성 후 애니메이션 효과 */
+.comment {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 댓글 삭제 버튼 스타일 */
+.comments .delete-comment-btn {
+    background-color: #f44336 !important; /* 빨간색 배경 */
+    color: white;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* 삭제 버튼 hover */
+.comments .delete-comment-btn:hover {
+    background-color: #d32f2f !important; /* 호버 시 더 어두운 빨간색 */
+}
+
+/* 삭제 버튼 active */
+.comments .delete-comment-btn:active {
+    background-color: #b71c1c !important; /* 클릭 시 더 어두운 빨간색 */
+}
+
+/* 댓글 fade-in 애니메이션 */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.reply .delete-reply-btn {
+    background-color: #f44336 !important; /* 빨간색 배경 */
+    color: white;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 80px;
+    right: 10px;
+}
+
+/* 삭제 버튼 호버 효과 */
+.reply .delete-reply-btn:hover {
+    background-color: #d32f2f !important;  /* 호버 시 더 어두운 빨간색 */
+}
+
+/* 삭제 버튼 클릭 시 효과 */
+.reply .delete-reply-btn:active {
+    background-color: #b71c1c !important;  /* 클릭 시 더 어두운 빨간색 */
+    transform: scale(0.95);  /* 클릭 시 버튼이 살짝 줄어드는 효과 */
+}
+
+

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세 화면</title>
+  <link rel="stylesheet" href="/css/write.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+</head>
+<body>
+<!-- 헤더 추가 -->
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+
+<!-- 네비게이션 추가 -->
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+  <!-- 세부 메뉴 div-->
+  <div class="sub--menu">
+    <div class="sub--menu--top">
+      <h2>게시글</h2>
+    </div>
+    <!-- 메뉴 -->
+    <div class="sub--menu--mid">
+      <table class="sub--menu--table" border="1">
+        <tr>
+          <td><a th:href="@{/board/boardDetail(id=${board.id})}" class="selected--menu">게시글 상세</a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 메인 div -->
+  <main>
+    <h1>게시글 상세</h1>
+    <div class="split--div"></div>
+  <div class="container">
+    <form id="frm" method="post" action="/board/toggleLike">
+      <table class="board_detail">
+        <tbody>
+        <tr>
+          <th>글 번호</th>
+          <td th:text="${board.id }"></td>
+          <th>조회수</th>
+          <td th:text="${board.hit }"></td>
+        </tr>
+        <tr>
+          <th>작성자</th>
+          <td th:text="${board.username }"></td>
+          <th>작성일</th>
+          <td th:text="${#temporals.format(board.createdDate, 'yyyy/MM/dd HH:mm')}"></td>
+        </tr>
+        <tr>
+          <th>좋아요</th>
+          <td colspan="3">
+              <input type="hidden" name="id" th:value="${board.id}">
+              <button type="submit" id="likeButton" class="like-button" >
+                👍 <span id="likeText">좋아요</span>
+              </button>
+              <span id="likeCount" class="like-count" th:text="${board.likeCount}"></span>
+          </td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td colspan="3"><input type="text" id="title" name="title" th:value="${board.title }"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td colspan="3"><textarea title="내용" id="content" name="content" th:text="${board.content }"></textarea>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <input type="hidden" id="id" name="id" th:value="${board.id }">
+    </form>
+
+    <div class="comment-section">
+      <h3>댓글 달기</h3>
+      <form id="commentForm" method="post" action="/board/addComment">
+        <input type="hidden" name="boardId" th:value="${board.id}">
+        <textarea name="content" placeholder="댓글을 작성하세요..." required></textarea>
+        <button type="submit">댓글 달기</button>
+      </form>
+
+      <div th:if="${comments.size() > 0}" class="comments">
+        <h3>댓글 목록</h3>
+        <div th:each="comment : ${comments}">
+          <div class="comment">
+            <p><strong th:text="'댓글: ' +${comment.username}"></strong>
+              <span th:text="${#temporals.format(comment.createdDate,'yyyy/MM/dd HH:mm')}"></span></p>
+            <p th:text="${comment.content}"></p>
+            <hr />
+
+            <form th:action="@{/board/deleteComment}" method="post" style="display:inline;">
+              <input type="hidden" name="commentId" th:value="${comment.id}" />
+              <input type="hidden" name="boardId" th:value="${board.id}" />
+              <button th:if="${comment.username == loggedInUsername}" type="submit" class="delete-comment-btn">댓글 삭제</button>
+            </form>
+
+            <div th:if="${#lists.size(comment.replies) > 0}" class="replies">
+              <div th:each="reply : ${comment.replies}">
+                <div class="reply">
+                  <p><strong th:text="'답글: ' + ${reply.username}"></strong>
+                    <span th:text="${#temporals.format(reply.created, 'yyyy/MM/dd HH:mm')}"></span>
+                  </p>
+                  <p th:text="${reply.content}"></p>
+
+
+                  <form th:action="@{/board/deleteReply}" method="post" style="display:inline;">
+                <input type="hidden" name="replyId" th:value="${reply.id}" />
+                <input type="hidden" name="boardId" th:value="${board.id}" />
+                <button th:if="${reply.username == loggedInUsername}" type="submit" class="delete-reply-btn">답글 삭제</button>
+              </form>
+            </div>
+              </div>
+            </div>
+            <!-- 답글 달기 폼 -->
+            <form th:action="@{/board/addReply}" method="post">
+              <input type="hidden" name="boardId" th:value="${board.id}" />
+              <input type="hidden" name="commentId" th:value="${comment.id}" />
+              <textarea name="content" placeholder="답글을 작성하세요..." required></textarea>
+              <button type="submit" class="submit-reply-btn">답글 달기</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <a href="#this" id="list" class="mbtn">목록으로</a>
+
+      <div th:if="${board.username == loggedInUsername or isAdmin}">
+        <a href="#this" id="edit" class="rbtn">수정하기</a>
+        <a href="#this" id="delete" class="dbtn">삭제하기</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#list").on("click", function(){
+        location.href = "/board/boardList";
+      });
+
+      $("#edit").on("click", function(){
+        var frm = $("#frm")[0];
+        frm.action = "/board/updateBoard";
+        frm.submit();
+      });
+
+      $("#delete").on("click", function(){
+        var frm = $("#frm")[0];
+        frm.action = "/board/deleteBoard";
+        frm.submit();
+      });
+    });
+  </script>
+
+  </main>
+</div>
+</body>
+</html>

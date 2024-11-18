@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+  <title>응답 내용</title>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+  <h1 class="mt-4">응답 내용</h1>
+  <ul class="list-group">
+    <li th:each="response, status : ${ansData.responses}" class="list-group-item">
+      <span th:text="${status.index + 1} + '번 문항: ' + ${response}"></span>
+    </li>
+  </ul>
+  <p class="mt-4" th:text="'응답자 위치: ' + ${ansData.res.location}"></p>
+  <p th:text="'응답자 나이: ' + ${ansData.res.age}"></p>
+  <p><a th:href="@{/}" class="btn btn-secondary">처음으로</a></p>
+</div>
+</body>
+</html>
