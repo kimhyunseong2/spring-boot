@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35bb79a0-e2c2-46c1-bdc2-4bd98285379b" name="Changes" comment="" />
+    <list default="true" id="35bb79a0-e2c2-46c1-bdc2-4bd98285379b" name="Changes" comment="Changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,7 +16,7 @@
     </projectState>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -46,9 +46,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.Sample2Application.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/DU/IdeaProjects/sample2",
+    "last_opened_file_path": "C:/Users/DU/IdeaProjects/hogwarts",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -116,6 +116,7 @@
       <workItem from="1730442568722" duration="19000" />
       <workItem from="1731925439030" duration="40000" />
       <workItem from="1731925735855" duration="86000" />
+      <workItem from="1731925900434" duration="110000" />
     </task>
     <servers />
   </component>
