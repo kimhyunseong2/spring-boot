@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>입지 분석</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_VNxA28gpMpeNrHVA_qa849HACeLyGsw&libraries=places"></script>
+    <style>
+        .map-container {
+            margin: 20px 0;
+        }
+        .coordinate-display {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>입지 분석</h1>
+    <p>지도에서 분석하고 싶은 위치를 클릭하세요.</p>
+    
+    <form th:action="@{/locations/new}" method="post">
+        <input type="hidden" id="latitude" name="latitude" required>
+        <input type="hidden" id="longitude" name="longitude" required>
+        <div id="map" style="height: 500px; width: 100%;"></div>
+        <div class="coordinate-display">
+            선택한 좌표: <span id="selectedCoords">아직 선택되지 않음</span>
+        </div>
+        <button type="submit" id="submitBtn" disabled>분석하기</button>
+    </form>
+
+    <script>
+        let map;
+        let marker;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 37.5665, lng: 126.9780}, // 서울 중심
+                zoom: 13
+            });
+
+            map.addListener('click', function(e) {
+                const lat = e.latLng.lat();
+                const lng = e.latLng.lng();
+                
+                // 기존 마커 제거
+                if (marker) {
+                    marker.setMap(null);
+                }
+                
+                // 새 마커 생성
+                marker = new google.maps.Marker({
+                    position: {lat: lat, lng: lng},
+                    map: map
+                });
+                
+                // 좌표값 설정
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lng;
+                document.getElementById('selectedCoords').textContent = 
+                    `위도: ${lat.toFixed(6)}, 경도: ${lng.toFixed(6)}`;
+                
+                // 분석하기 버튼 활성화
+                document.getElementById('submitBtn').disabled = false;
+            });
+        }
+
+        window.onload = initMap;
+    </script>
+</body>
+</html> 
