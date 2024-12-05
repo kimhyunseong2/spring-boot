@@ -83,6 +83,19 @@
       }
     });
 
+    // 클릭 이벤트 리스너 추가 (좌표 클릭 시 데이터 표시)
+    google.maps.event.addListener(map, 'click', function(event) {
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+
+      // 클릭한 좌표의 정보 표시 (예: 위도, 경도)
+      const infoWindow = new google.maps.InfoWindow({
+        content: `<div><strong>위도:</strong> ${lat}<br><strong>경도:</strong> ${lng}</div>`,
+        position: event.latLng
+      });
+      infoWindow.open(map);
+    });
+
     // 컨트롤 추가
     addMapControls();
   }
